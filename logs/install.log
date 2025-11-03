@@ -1,0 +1,126 @@
+==========================================
+SOFTWARE INSTALLATION & SERVICE SETUP LOG
+==========================================
+
+Date: 3.11.2025
+Author: Wiktor Wroblewski
+Section: Software Installation & services
+
+==========================================
+STEP 1: System update
+==========================================
+Commands used:
+$ sudo apt update | tee -a logs/install.log
+
+Hit:1 http://pl.archive.ubuntu.com/ubuntu noble InRelease
+Get:2 http://pl.archive.ubuntu.com/ubuntu noble-updates InRelease [126 kB]
+Get:3 http://security.ubuntu.com/ubuntu noble-security InRelease [126 kB]
+Get:4 http://pl.archive.ubuntu.com/ubuntu noble-backports InRelease [126 kB]
+Get:5 http://pl.archive.ubuntu.com/ubuntu noble-updates/main amd64 Packages [1,573 kB]
+Get:6 http://security.ubuntu.com/ubuntu noble-security/main amd64 Packages [1,270 kB]
+Get:7 http://security.ubuntu.com/ubuntu noble-security/main amd64 Components [21.5 kB]
+Get:8 http://security.ubuntu.com/ubuntu noble-security/main amd64 c-n-f Metadata [9,012 B]
+Get:9 http://security.ubuntu.com/ubuntu noble-security/restricted amd64 Components [212 B]
+Get:10 http://security.ubuntu.com/ubuntu noble-security/universe amd64 Packages [906 kB]
+Get:11 http://pl.archive.ubuntu.com/ubuntu noble-updates/main Translation-en [297 kB]
+Get:12 http://security.ubuntu.com/ubuntu noble-security/universe Translation-en [203 kB]
+Get:13 http://security.ubuntu.com/ubuntu noble-security/universe amd64 Components [52.2 kB]
+Get:14 http://security.ubuntu.com/ubuntu noble-security/universe amd64 c-n-f Metadata [19.4 kB]
+Get:15 http://security.ubuntu.com/ubuntu noble-security/multiverse amd64 Components [212 B]
+Get:16 http://pl.archive.ubuntu.com/ubuntu noble-updates/main amd64 Components [175 kB]
+Get:17 http://pl.archive.ubuntu.com/ubuntu noble-updates/main amd64 c-n-f Metadata [15.4 kB]
+Get:18 http://pl.archive.ubuntu.com/ubuntu noble-updates/restricted amd64 Packages [2,226 kB]
+Get:19 http://pl.archive.ubuntu.com/ubuntu noble-updates/restricted Translation-en [505 kB]
+Get:20 http://pl.archive.ubuntu.com/ubuntu noble-updates/restricted amd64 Components [212 B]
+Get:21 http://pl.archive.ubuntu.com/ubuntu noble-updates/universe amd64 Packages [1,498 kB]
+Get:22 http://pl.archive.ubuntu.com/ubuntu noble-updates/universe amd64 Components [378 kB]
+Get:23 http://pl.archive.ubuntu.com/ubuntu noble-updates/universe amd64 c-n-f Metadata [31.4 kB]
+Get:24 http://pl.archive.ubuntu.com/ubuntu noble-updates/multiverse amd64 Components [940 B]
+Get:25 http://pl.archive.ubuntu.com/ubuntu noble-backports/main amd64 Components [7,120 B]
+Get:26 http://pl.archive.ubuntu.com/ubuntu noble-backports/restricted amd64 Components [216 B]
+Get:27 http://pl.archive.ubuntu.com/ubuntu noble-backports/universe amd64 Components [11.0 kB]
+Get:28 http://pl.archive.ubuntu.com/ubuntu noble-backports/multiverse amd64 Components [212 B]
+Fetched 8,808 kB in 7s (1,301 kB/s)
+Reading package lists...
+Building dependency tree...
+Reading state information...
+82 packages can be upgraded. Run 'apt list --upgradable' to see them.
+
+==========================================
+STEP 2: Installing required tools
+==========================================
+Commands used:
+$ sudo apt install -y curl git htop nginx | tee -a logs/install.log
+
+Results:
+installation completed
+
+Version check:
+$ curl --version | tee -a logs/install.log
+
+curl 8.5.0 (x86_64-pc-linux-gnu) libcurl/8.5.0 OpenSSL/3.0.13 zlib/1.3 brotli/1.1.0 zstd/1.5.5 libidn2/2.3.7 libpsl/0.21.2 (+libidn2/2.3.7) libssh/0.10.6/openssl/zlib nghttp2/1.59.0 librtmp/2.3 OpenLDAP/2.6.7
+Release-Date: 2023-12-06, security patched: 8.5.0-2ubuntu10.6
+Protocols: dict file ftp ftps gopher gophers http https imap imaps ldap ldaps mqtt pop3 pop3s rtmp rtsp scp sftp smb smbs smtp smtps telnet tftp
+Features: alt-svc AsynchDNS brotli GSS-API HSTS HTTP2 HTTPS-proxy IDN IPv6 Kerberos Largefile libz NTLM PSL SPNEGO SSL threadsafe TLS-SRP UnixSockets zstd
+
+$ git --version | tee -a logs/install.log
+
+git version 2.43.0
+
+$ htop --version | tee -a logs/install.log 
+
+htop 3.3.0
+
+$ nginx -v | tee -a logs/install.log
+
+nginx version: nginx/1.24.0 (Ubuntu)
+
+
+==========================================
+STEP 3: Nginx service status
+==========================================
+Commands used:
+$ systemctl status nginx 
+active
+$ sudo systemctl enable nginx
+
+Synchronizing state of nginx.service with SysV service script with /usr/lib/systemd/systemd-sysv-install.
+Executing: /usr/lib/systemd/systemd-sysv-install enable nginx
+
+$ sudo systemctl restart nginx
+
+Done
+
+$ systemctl is-active nginx
+
+active
+
+$ systemctl is-enabled nginx 
+
+enabled
+
+==========================================
+STEP 4: Testing nginx locally
+==========================================
+Commands:
+$ curl -I http://localhost
+
+curl: (7) Failed to connect to localhost port 443 after 0 ms: Couldn't connect to server
+
+
+==========================================
+STEP 5: Verification of installed tools
+==========================================
+
+Commands:
+$ which curl
+/usr/bin/curl
+
+$ which git
+/usr/bin/git
+
+$ which htop
+/usr/bin/htop
+
+$ which nginx 
+/usr/bin/nginx

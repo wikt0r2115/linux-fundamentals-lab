@@ -1,0 +1,157 @@
+============================================
+👤 USER & PERMISSIONS LAB REPORT
+============================================
+
+Date: 30.10.2025
+Author: Wiktor Wroblewski
+Lab: Linux Fundamentals Lab
+Section: User / Group / Permissions
+Environment: Ubuntu 24.04.3 LTS (Virtual Box)
+
+--------------------------------------------
+🔹 STEP 1: Creating a new user and group
+--------------------------------------------
+Commands used:
+$ sudo useradd -m devuser
+$ sudo passwd devuser
+$ sudo groupadd project-team 
+$ sudo usermod -aG project-team user
+$ sudo usermod -aG project-team devuser
+$ sudo useradd -m user1
+$ sudo passwd user1
+
+Results / Output:
+created user `devuser`
+created group `project-team`
+added both users to the group
+created user `user1` (test user without permissions)
+
+Notes:
+devuser password: devuser
+user1 password: 1234
+user(root) password: 1234
+
+--------------------------------------------
+🔹 STEP 2: Shared directory permissions
+--------------------------------------------
+Commands used:
+$ sudo mkdir -p /srv/project-share
+$ sudo chgrp project-team /srv/project-share
+$ sudo chmod 2770 /srv/project-share
+$ ls -ld /srv/proejct-share
+
+Results / Output:
+Directory created and group set to `project-team`
+drwxrws--- 2 root project-team 4096 Oct 29 21:26 /srv/project-share
+
+
+--------------------------------------------
+🔹 STEP 3: File access test (as main user)
+--------------------------------------------
+Commands used:
+$ echo "initial report content" > /srv/project-share/report.txt
+$ ls -l /srv/project-share/
+-rw-rw-r-- 1 user project-team 23 Oct 30 08:40 report.txt
+
+Results / Output:
+Owner: user
+Group: project-group
+Others: no access
+devuser should have read/write permissions
+
+--------------------------------------------
+🔹 STEP 4: Test as secondary user (devuser)
+--------------------------------------------
+Commands used:
+$ su - devuser
+$ cd /srv/project-share
+$ cat report.txt
+initial report content
+$ echo "edit by devuser" >> report.txt
+$ cat report.txt 
+initial report content
+edit by devuser
+Results / Output:
+Access confirmed: devuser can read & edit file
+Users outside project-team cannot access (tested on user1)
+
+
+--------------------------------------------
+🔹 STEP 5: Permission comparison test
+--------------------------------------------
+Explain the differences between chmod 740 / 640 / 777:
+
+Uprawnienie	Litery	Wartość binarna	Wartość dziesiętna
+brak		---	000		0
+x		--x	001		1
+w		-w-	010		2
+wx		-wx	011		3	
+r		r--	100		4
+r-x		r-x	101		5
+rw-		rw-	110		6
+rwx		rwx	111		7
+
+740:
+owner full access 
+group read only
+others access denied
+640
+owner write read
+group read only
+others access denied
+777 (not recomended)
+owner full access
+group full access
+others full access 
+
+--------------------------------------------
+🔹 STEP 6: CRUD DIFF (from CRUD exercise)
+--------------------------------------------
+Commands used:
+$ git diff data/notes.txt
+
+Results / Output:
+
+
+Notes:
+
+
+--------------------------------------------
+🔹 STEP 7: Backup verification
+--------------------------------------------
+Commands used:
+$ ./scripts/backup.sh
+
+Results / Output:
+
+
+Notes:
+
+
+--------------------------------------------
+🔹 STEP 8: Cleanup test
+--------------------------------------------
+Commands used:
+$ ./scripts/cleanup.sh
+
+Results / Output:
+
+
+Notes:
+
+
+--------------------------------------------
+🔹 PERSONAL NOTES
+--------------------------------------------
+🧠 What I learned:
+
+
+
+💡 Key takeaway:
+
+
+
+============================================
+END OF REPORT
+============================================
+
